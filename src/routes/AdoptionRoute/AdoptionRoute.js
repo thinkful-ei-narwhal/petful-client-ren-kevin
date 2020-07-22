@@ -8,8 +8,8 @@ export default class Adoption extends Component {
     cat: {},
     dog: {},
     line: [],
-    inLine: false,
-    adopt: true,
+    inLine: true,
+    adopt: false,
     person: 'Test',
     nextInLine: null
   };
@@ -34,12 +34,42 @@ export default class Adoption extends Component {
   setPerson = (name) => {
     this.setState({ person: name });
   };
-
+  handleDemo = () => {
+    console.log('triggering');
+    if (this.state.inLine) {
+      if (this.state.dequeueCat) {
+        this.handleCatQueue();
+        this.handleLineGeneration(this.state.line[0]);
+      } else {
+        this.handleDogQueue();
+        this.handleLineGeneration(this.state.line[0]);
+      }
+    }
+  };
+  handleCatQueue = () => {
+    PetfulApiService.dequeueCats().then(
+      PetfulApiService.getCats().then((res) => this.setState({ cat: res }))
+    );
+    this.setState({ dequeueCat: false, dequeueDog: true });
+    this.renderPetList();
+  };
+  handleDogQueue = () => {
+    PetfulApiService.dequeueDogs()
+      .then(PetfulApiService.getDogs())
+      .then((res) => this.setState({ dog: res }));
+    this.setState({ dequeueCat: true, dequeueDog: false });
+  };
+  handleLineGeneration = (name) => {
+    PetfulApiService.postPeople({ person: name }).then(this.setLine(name));
+  };
+  renderPetList = () => {
+    return <PetList cat={this.state.cat} dog={this.state.dog} />;
+  };
   render() {
     return (
       <div>
         <h1>Adoption</h1>
-        <PetList adopt={this.state.adopt} cat={this.state.cat} dog={this.state.dog} get/>
+        {this.renderPetList()}
         <People
           line={this.state.line}
           inLine={this.state.inLine}

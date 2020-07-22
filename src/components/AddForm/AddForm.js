@@ -3,6 +3,7 @@ import PetfulApiService from '../../services/petful-api';
 
 export default class AddForm extends Component {
   handleSubmit = (e) => {
+    e.preventDefault();
     const { name } = e.target;
     PetfulApiService.postPeople({ person: name.value }).then(
       this.props.setLine(name.value)
