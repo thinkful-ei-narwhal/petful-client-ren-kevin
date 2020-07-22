@@ -23,5 +23,21 @@ const PetfulApiService = {
       body: JSON.stringify(person),
     });
   },
+  dequeueCats() {
+    return fetch(`${config.API_ENDPOINT}/pets/cats/next`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+      },
+    });
+  },
+  dequeueDogs() {
+    return fetch(`${config.API_ENDPOINT}/pets/dogs/next`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+      },
+    });
+  },
 };
 export default PetfulApiService;
