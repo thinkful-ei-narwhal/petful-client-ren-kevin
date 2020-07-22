@@ -21,7 +21,7 @@ export default class Adoption extends Component {
     PetfulApiService.getDogs().then((res) => this.setState({ dog: res }));
     PetfulApiService.getPeople().then((res) => this.setState({ line: res }));
     PetfulApiService.getNextPerson().then((res) =>
-      this.setState({ nextInLine: res })
+    this.setState({ nextInLine: res })
     );
     this.setAdopt();
   }
@@ -73,7 +73,7 @@ export default class Adoption extends Component {
     return (
       <div>
         <h1>Adoption</h1>
-        {this.renderDemo()}
+        {/* {this.renderDemo()} */}
         <PetList cat={this.state.cat} dog={this.state.dog} />;
         <People
           line={this.state.line}
