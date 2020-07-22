@@ -10,7 +10,7 @@ export default class Adoption extends Component {
     line: [],
     inLine: false,
     adopt: false,
-    person: '',
+    person: 'Test',
   };
   componentDidMount() {
     PetfulApiService.getCats().then((cat) => this.setState({ cat: cat }));
@@ -19,9 +19,7 @@ export default class Adoption extends Component {
   }
 
   setInLine = () => {
-    this.setState((prev) => ({
-      inLine: !prev,
-    }));
+    this.setState({ inLine: !this.state.inLine });
   };
   setPerson = (name) => {
     this.setState({ person: name });
@@ -38,10 +36,14 @@ export default class Adoption extends Component {
         <PetList cat={this.state.cat} dog={this.state.dog} />
         <People
           line={this.state.line}
-          setInLine={this.setInLine()}
-          setPerson={this.setPerson()}
+          inLine={this.state.inLine}
+          setInLine={this.setInLine}
+          setPerson={this.setPerson}
         />
       </div>
     );
   }
 }
+/* Demo starts when user adds themselves to the line - trigger state change of inLine to true on submit
+Timer for 5 seconds that will dequeue both the pets and the people and create a post of a new 'user' while inLine is true
+When user reaches the front of the line, trigger state change of adopt to render adoption options and change inLine to false, ending the demo timer */
