@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 
 export default class Pet extends Component {
   renderAdoptButton = () => {
-    return this.props.adopt && <button onClick={() => this.props.dequeue()}>Adopt Me!</button>
-  }
+    return (
+      this.props.adopt && (
+        <button onClick={this.props.dequeue}>Adopt Me!</button>
+      )
+    );
+  };
 
   render() {
     console.log(this.props);
