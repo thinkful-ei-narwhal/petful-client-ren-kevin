@@ -6,14 +6,16 @@ export default class Adoption extends Component {
     e.preventDefault();
     const { name } = e.target;
     console.log(name.value);
-    PetfulApiService.postPeople(name.value);
+    PetfulApiService.postPeople({ person: name.value });
+    this.props.setInLine();
+    this.props.setPerson(name.value);
   };
   render() {
     return (
       <div>
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <input className="name-input" name="name"></input>
-          <button>Add to Line</button>
+          <button type="submit">Add to Line</button>
         </form>
       </div>
     );

@@ -16,14 +16,12 @@ const PetfulApiService = {
       !res.ok ? res.json().then((e) => Promise.reject(e)) : res.json()
     );
   },
-  postPeople(name) {
+  postPeople(person) {
     return fetch(`${config.API_ENDPOINT}/people`, {
       method: 'POST',
-      header: { 'content-type': 'application/json' },
-      body: JSON.stringify(name),
-    }).then((res) =>
-      !res.ok ? res.json().then((e) => Promise.reject(e)) : res.json()
-    );
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(person),
+    });
   },
 };
 export default PetfulApiService;
