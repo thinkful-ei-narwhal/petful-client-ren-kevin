@@ -9,34 +9,30 @@ export default class Adoption extends Component {
     dog: {},
     line: [],
     inLine: false,
-    adopt: false,
-    nextInLine: null,
-    person: '',
+    adopt: true,
+    person: 'Test',
+    nextInLine: null
   };
+
   componentDidMount() {
-    PetfulApiService.getCats().then((cat) => this.setState({ cat: cat }));
-    PetfulApiService.getDogs().then((dog) => this.setState({ dog: dog }));
+    PetfulApiService.getCats().then((res) => this.setState({ cat: res }));
+    PetfulApiService.getDogs().then((res) => this.setState({ dog: res }));
     PetfulApiService.getPeople().then((res) => this.setState({ line: res }));
     PetfulApiService.getNextPerson().then((res) => this.setState({ nextInLine: res }))
     this.setAdopt()
   }
-  
-  setDog = () => {
-    
-  }
 
   setAdopt = () => {
     this.state.nextInLine = this.state.person && this.setState({ adopt: true })
+  }
+  setLine = (person) => {
+    this.setState({ line: [...this.state.line, person] });
   };
   setInLine = () => {
     this.setState({ inLine: !this.state.inLine });
   };
   setPerson = (name) => {
     this.setState({ person: name });
-  };
-  handleAdoption = () => {
-    if (this.state.inLine) {
-    }
   };
 
   render() {
@@ -49,6 +45,7 @@ export default class Adoption extends Component {
           inLine={this.state.inLine}
           setInLine={this.setInLine}
           setPerson={this.setPerson}
+          setLine={this.setLine}
         />
       </div>
     );

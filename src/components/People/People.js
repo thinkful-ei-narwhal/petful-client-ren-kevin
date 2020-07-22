@@ -14,6 +14,7 @@ export default class People extends Component {
           <AddForm
             setInLine={this.props.setInLine}
             setPerson={this.props.setPerson}
+            setLine={this.props.setLine}
           />
         )}
       </div>

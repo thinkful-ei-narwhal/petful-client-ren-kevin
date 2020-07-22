@@ -27,6 +27,22 @@ const PetfulApiService = {
     return fetch(`${config.API_ENDPOINT}/people/next`).then((res) =>
       !res.ok ? res.json().then((e) => Promise.reject(e)) : res.json()
     );
-  }
+  },
+  dequeueCats() {
+    return fetch(`${config.API_ENDPOINT}/pets/cats/next`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+      },
+    });
+  },
+  dequeueDogs() {
+    return fetch(`${config.API_ENDPOINT}/pets/dogs/next`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+      },
+    });
+  },
 };
 export default PetfulApiService;
