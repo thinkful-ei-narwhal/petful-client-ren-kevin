@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
 export default class Pet extends Component {
+  renderAdoptButton = () => {
+    return this.props.adopt && <button>Adopt Me!</button>
+  }
+
   render() {
     console.log(this.props);
     const {

@@ -7,8 +7,8 @@ export default class PetList extends Component {
     console.log(this.state);
     return (
       <div>
-        <Pet title="Cat" pet={this.props.cat} />
-        <Pet title="Dog" pet={this.props.dog} />
+        <Pet title="Cat" adopt={this.props.adopt} pet={this.props.cat} />
+        <Pet title="Dog" adopt={this.props.adopt} pet={this.props.dog} />
       </div>
     );
   }
