@@ -8,8 +8,7 @@ export default class Header extends Component {
         <h1>
           <Link to="/">Petful</Link>
         </h1>
-        <Link to="/cats">Cats</Link>
-        <Link to="/dogs">Dogs</Link>
+
         <Link to="/adoption">Adopt</Link>
       </nav>
     );
