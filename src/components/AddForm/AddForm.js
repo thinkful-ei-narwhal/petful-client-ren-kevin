@@ -10,6 +10,7 @@ export default class AddForm extends Component {
     );
     this.props.setInLine();
     this.props.setPerson(name.value);
+    this.props.setCat();
   };
   render() {
     console.log(this.props);

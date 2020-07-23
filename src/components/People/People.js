@@ -15,6 +15,7 @@ export default class People extends Component {
             setInLine={this.props.setInLine}
             setPerson={this.props.setPerson}
             setLine={this.props.setLine}
+            setCat={this.props.setCat}
           />
         )}
       </div>
