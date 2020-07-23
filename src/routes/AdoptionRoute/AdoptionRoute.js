@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PetList from '../../components/PetList/PetList';
 import People from '../../components/People/People';
 import PetfulApiService from '../../services/petful-api';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import './AdoptionRoute.css';
 
 export default class Adoption extends Component {
@@ -17,6 +19,7 @@ export default class Adoption extends Component {
       nextInLine: null,
       dequeueCat: false,
       dequeueDog: false,
+      show: false,
     };
     this.timer = null;
   }
@@ -29,16 +32,16 @@ export default class Adoption extends Component {
       this.setState({ nextInLine: res })
     );
   }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.state.nextInLine !== this.state.person) {
+  componentDidUpdate(prevState) {
+    if (this.state.line[0] !== this.state.person) {
       if (this.timer === null && this.state.inLine === true) {
         this.timer = setInterval(() => {
           this.handlePetQueue();
-          this.handleLineGeneration(this.state.line[0]);
+          this.handleLineGeneration(this.state.nextInLine);
         }, 6000);
       }
     }
-    if (this.state.nextInLine === this.state.person && this.timer !== null) {
+    if (this.state.line[0] === this.state.person && this.timer !== null) {
       console.log('triggered', this.state);
       clearInterval(this.timer);
       this.timer = null;
@@ -89,6 +92,7 @@ export default class Adoption extends Component {
           this.setDog();
         })
       );
+      console.log('cat');
     } else if (this.state.dequeueDog === true) {
       PetfulApiService.dequeueDogs().then(
         PetfulApiService.getDogs().then((res) => {
@@ -100,12 +104,20 @@ export default class Adoption extends Component {
           this.setDog();
         })
       );
+      console.log('cat');
     }
   };
   handleLineGeneration = (name) => {
     PetfulApiService.postPeople({ person: name }).then(
       PetfulApiService.getPeople().then((res) => this.setState({ line: res }))
     );
+  };
+  handleShow = () => {
+    this.setState({ show: true });
+  };
+
+  handleClose = () => {
+    this.setState({ show: false });
   };
   renderAdopt = () => {
     return (
@@ -128,6 +140,7 @@ export default class Adoption extends Component {
           adopt={this.state.adopt}
           cat={this.state.cat}
           dog={this.state.dog}
+          handleShow={this.handleShow}
         />
         <People
           line={this.state.line}
@@ -137,6 +150,17 @@ export default class Adoption extends Component {
           setCat={this.setCat}
           setLine={this.setLine}
         />
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Congrats!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>You just adopted a friend!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={this.handleClose}>
+              Yay!
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   }
