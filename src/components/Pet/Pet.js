@@ -10,7 +10,8 @@ export default class Pet extends Component {
     this.props
       .dequeue()
       .then(this.props.getNextPet)
-      .then(this.props.handleShow);
+      .then(this.props.handleShow)
+      .then(this.props.toggleAdopt);
   };
 
   renderAdoptButton = () => {
