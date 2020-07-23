@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PetList from '../../components/PetList/PetList';
 import People from '../../components/People/People';
 import PetfulApiService from '../../services/petful-api';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 export default class Adoption extends Component {
   constructor(props) {
@@ -16,6 +18,7 @@ export default class Adoption extends Component {
       nextInLine: null,
       dequeueCat: false,
       dequeueDog: false,
+      show: false
     };
     this.timer = null;
   }
@@ -94,6 +97,15 @@ export default class Adoption extends Component {
     PetfulApiService.getPeople().then((res) => this.setState({ line: res }))
     );
   };
+
+  handleShow = () => {
+    this.setState({ show: true })
+  }
+
+  handleClose = () => {
+    this.setState({ show: false})
+  }
+  
   render() {
     return (
       <div>
@@ -105,6 +117,7 @@ export default class Adoption extends Component {
           adopt={true}
           cat={this.state.cat}
           dog={this.state.dog}
+          handleShow={this.handleShow}
         />;
 
         <People
@@ -115,6 +128,22 @@ export default class Adoption extends Component {
           setCat={this.setCat}
           setLine={this.setLine}
         />
+
+        <Button variant="primary" onClick={this.handleShow}>
+          Launch demo modal
+        </Button>
+
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Congrats!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>You just adopted a friend!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={this.handleClose}>
+              Yay!
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   }
