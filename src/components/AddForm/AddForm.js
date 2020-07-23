@@ -12,7 +12,6 @@ export default class AddForm extends Component {
     this.props.setPerson(name.value);
   };
   render() {
-    console.log(this.props);
     return (
       <div>
         <form onSubmit={(e) => this.handleSubmit(e)}>
