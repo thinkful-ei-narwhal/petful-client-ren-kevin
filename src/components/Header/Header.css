@@ -1,0 +1,13 @@
+.Header {
+  display: flex;
+  justify-content: space-around;
+  background-color: rgb(12, 104, 104);
+}
+.Header a {
+  color: white;
+  text-decoration: none;
+}
+.adopt-link {
+  float: right;
+  margin-top: 20px;
+}

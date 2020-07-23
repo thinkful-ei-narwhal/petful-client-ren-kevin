@@ -23,20 +23,22 @@ export default class PetList extends Component {
 
   render() {
     return (
-      <div>
+      <div className="pet-list">
         <Pet
           title="Cat"
-          key='Cat'
+          key="Cat"
           toggleAdopt={this.props.toggleAdopt}
           dequeue={PetfulApiService.dequeueCats}
           adopt={this.props.adopt}
+          pet={this.props.cat}
         />
         <Pet
           title="Dog"
-          key='Dog'
+          key="Dog"
           setAdopt={this.props.setAdopt}
           dequeue={PetfulApiService.dequeueDogs}
           adopt={this.props.adopt}
+          pet={this.props.dog}
         />
       </div>
     );

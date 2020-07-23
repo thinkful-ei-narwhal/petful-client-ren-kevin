@@ -4,23 +4,22 @@ import PetfulApiService from '../../services/petful-api';
 export default class Pet extends Component {
   state = {
     pet: {},
-    update: false
-  }
+    update: false,
+  };
 
-  componentDidMount() {
-    this.getNextPet();
-  }
+  // componentDidMount() {
+  //   this.getNextPet();
+  // }
 
   getNextPet = () => {
     this.props.title === 'Cat'
-    ? PetfulApiService.getCats().then((res) => this.setState({ pet: res }))
-    : PetfulApiService.getDogs().then((res) => this.setState({ pet: res }));
-  }
+      ? PetfulApiService.getCats().then((res) => this.setState({ pet: res }))
+      : PetfulApiService.getDogs().then((res) => this.setState({ pet: res }));
+  };
 
   dequeueAndGetNext = () => {
-    this.props.dequeue()
-    .then(this.getNextPet)
-  }
+    this.props.dequeue().then(this.getNextPet);
+  };
 
   renderAdoptButton = () => {
     return (
@@ -28,10 +27,9 @@ export default class Pet extends Component {
         <button onClick={() => this.dequeueAndGetNext()}>Adopt Me!</button>
       )
     );
-  }
+  };
 
   render() {
-
     const {
       age,
       breed,
@@ -40,9 +38,9 @@ export default class Pet extends Component {
       imageURL,
       name,
       story,
-    } = this.state.pet;
+    } = this.props.pet;
     return (
-      <div>
+      <div className="pet-container">
         <h1>{this.props.title}</h1>
         <h2>{name}</h2>
         <img src={imageURL} alt="pet"></img>

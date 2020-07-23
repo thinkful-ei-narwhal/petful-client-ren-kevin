@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PetList from '../../components/PetList/PetList';
 import People from '../../components/People/People';
 import PetfulApiService from '../../services/petful-api';
+import './AdoptionRoute.css';
 
 export default class Adoption extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ export default class Adoption extends Component {
       line: [],
       inLine: false,
       adopt: false,
-      person: 'Test',
+      person: '',
       nextInLine: null,
       dequeueCat: false,
       dequeueDog: false,
@@ -24,38 +25,44 @@ export default class Adoption extends Component {
     this.getNextCat();
     this.getNextDog();
     PetfulApiService.getPeople().then((res) => this.setState({ line: res }));
-    PetfulApiService.getNextPerson().then((res) => this.setState({ nextInLine: res }));
-    this.setAdopt();
+    PetfulApiService.getNextPerson().then((res) =>
+      this.setState({ nextInLine: res })
+    );
   }
-  componentDidUpdate() {
-    if (this.state.line[0] !== this.state.person) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.nextInLine !== this.state.person) {
       if (this.timer === null && this.state.inLine === true) {
         this.timer = setInterval(() => {
           this.handlePetQueue();
           this.handleLineGeneration(this.state.line[0]);
         }, 6000);
-        console.log('triggered1', this.state, this.timer);
       }
     }
-    if (this.state.line[0] === this.state.person) {
-      console.log('triggered2');
+    if (this.state.nextInLine === this.state.person && this.timer !== null) {
+      console.log('triggered', this.state);
       clearInterval(this.timer);
       this.timer = null;
+      if (prevState.adopt !== true) {
+        this.toggleAdopt();
+      }
     }
   }
 
   getNextCat = () => {
-    PetfulApiService.getCats().then((res) => {this.setState({ cat: res })});
-  }
+    PetfulApiService.getCats().then((res) => {
+      this.setState({ cat: res });
+    });
+  };
   getNextDog = () => {
     PetfulApiService.getDogs().then((res) => this.setState({ dog: res }));
-  }
+  };
   setAdopt = () => {
-    this.state.nextInLine === this.state.person && this.setState({ adopt: true });
+    this.state.nextInLine === this.state.person &&
+      this.setState({ adopt: true });
   };
   toggleAdopt = () => {
-    this.setState({ adopt: !this.state.adopt })
-  }
+    this.setState({ adopt: !this.state.adopt });
+  };
   setLine = (person) => {
     this.setState({ line: [...this.state.line, person] });
   };
@@ -76,6 +83,9 @@ export default class Adoption extends Component {
       PetfulApiService.dequeueCats().then(
         PetfulApiService.getCats().then((res) => {
           this.setState({ cat: res });
+          PetfulApiService.getNextPerson().then((res) =>
+            this.setState({ nextInLine: res })
+          );
           this.setCat();
           this.setDog();
         })
@@ -84,6 +94,9 @@ export default class Adoption extends Component {
       PetfulApiService.dequeueDogs().then(
         PetfulApiService.getDogs().then((res) => {
           this.setState({ dog: res });
+          PetfulApiService.getNextPerson().then((res) =>
+            this.setState({ nextInLine: res })
+          );
           this.setCat();
           this.setDog();
         })
@@ -95,19 +108,29 @@ export default class Adoption extends Component {
       PetfulApiService.getPeople().then((res) => this.setState({ line: res }))
     );
   };
-  render() {
+  renderAdopt = () => {
     return (
       <div>
+        {this.state.adopt === true && (
+          <div>You're up! Time to choose your new best friend!</div>
+        )}
+      </div>
+    );
+  };
+
+  render() {
+    return (
+      <div className="adoption-container">
         <h1>Adoption</h1>
-        <PetList 
+        <PetList
           toggleAdopt={this.toggleAdopt}
           // getNextCat={this.getNextCat}
           // getNextDog={this.getNextDog}
           adopt={this.state.adopt}
-           cat={this.state.cat}
-           dog={this.state.dog}
-        />;
-
+          cat={this.state.cat}
+          dog={this.state.dog}
+        />
+        {this.state.adopt === true && this.renderAdopt()}
         <People
           line={this.state.line}
           inLine={this.state.inLine}
