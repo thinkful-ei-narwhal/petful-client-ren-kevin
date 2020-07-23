@@ -30,6 +30,8 @@ export default class PetList extends Component {
           toggleAdopt={this.props.toggleAdopt}
           dequeue={PetfulApiService.dequeueCats}
           adopt={this.props.adopt}
+          pet={this.props.cat}
+          getNextPet={this.props.getNextCat}
         />
         <Pet
           title="Dog"
@@ -37,6 +39,8 @@ export default class PetList extends Component {
           setAdopt={this.props.setAdopt}
           dequeue={PetfulApiService.dequeueDogs}
           adopt={this.props.adopt}
+          pet={this.props.dog}
+          getNextPet={this.props.getNextDog}
         />
       </div>
     );
