@@ -134,7 +134,7 @@ export default class Adoption extends Component {
         </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
+          <Modal.Header>
             <Modal.Title>Congrats!</Modal.Title>
           </Modal.Header>
           <Modal.Body>You just adopted a friend!</Modal.Body>
