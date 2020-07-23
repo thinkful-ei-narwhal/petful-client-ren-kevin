@@ -4,21 +4,10 @@ import PetfulApiService from '../../services/petful-api';
 export default class Pet extends Component {
   state = {
     pet: {},
-    update: false,
-  };
-
-  // componentDidMount() {
-  //   this.getNextPet();
-  // }
-
-  getNextPet = () => {
-    this.props.title === 'Cat'
-      ? PetfulApiService.getCats().then((res) => this.setState({ pet: res }))
-      : PetfulApiService.getDogs().then((res) => this.setState({ pet: res }));
   };
 
   dequeueAndGetNext = () => {
-    this.props.dequeue().then(this.getNextPet);
+    this.props.dequeue().then(this.props.getNextPet);
   };
 
   renderAdoptButton = () => {
