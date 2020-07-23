@@ -118,7 +118,7 @@ export default class Adoption extends Component {
           cat={this.state.cat}
           dog={this.state.dog}
           handleShow={this.handleShow}
-        />;
+        />;git p
 
         <People
           line={this.state.line}
