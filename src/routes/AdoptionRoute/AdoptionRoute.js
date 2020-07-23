@@ -21,12 +21,11 @@ export default class Adoption extends Component {
   }
 
   componentDidMount() {
-    PetfulApiService.getCats().then((res) => this.setState({ cat: res }));
-    PetfulApiService.getDogs().then((res) => this.setState({ dog: res }));
+    this.getNextCat();
+    this.getNextDog();
     PetfulApiService.getPeople().then((res) => this.setState({ line: res }));
-    PetfulApiService.getNextPerson().then((res) =>
-      this.setState({ nextInLine: res })
-    );
+    PetfulApiService.getNextPerson().then((res) => this.setState({ nextInLine: res }));
+    this.setAdopt();
   }
   componentDidUpdate() {
     if (this.state.line[0] !== this.state.person) {
@@ -44,9 +43,19 @@ export default class Adoption extends Component {
       this.timer = null;
     }
   }
+
+  getNextCat = () => {
+    PetfulApiService.getCats().then((res) => {this.setState({ cat: res })});
+  }
+  getNextDog = () => {
+    PetfulApiService.getDogs().then((res) => this.setState({ dog: res }));
+  }
   setAdopt = () => {
-    this.setState({ adopt: true });
+    this.state.nextInLine === this.state.person && this.setState({ adopt: true });
   };
+  toggleAdopt = () => {
+    this.setState({ adopt: !this.state.adopt })
+  }
   setLine = (person) => {
     this.setState({ line: [...this.state.line, person] });
   };
@@ -90,7 +99,15 @@ export default class Adoption extends Component {
     return (
       <div>
         <h1>Adoption</h1>
-        <PetList cat={this.state.cat} dog={this.state.dog} />;
+        <PetList 
+          toggleAdopt={this.toggleAdopt}
+          // getNextCat={this.getNextCat}
+          // getNextDog={this.getNextDog}
+          adopt={this.state.adopt}
+           cat={this.state.cat}
+           dog={this.state.dog}
+        />;
+
         <People
           line={this.state.line}
           inLine={this.state.inLine}
