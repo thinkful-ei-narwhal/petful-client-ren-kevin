@@ -1,0 +1,19 @@
+.adoption-container {
+  background-color: aqua;
+  text-align: center;
+  padding: 20px;
+  margin: 10px;
+}
+
+.pet-list {
+  display: flex;
+  justify-content: space-around;
+}
+
+.people-container li {
+  list-style: none;
+  color: rgb(0, 59, 58);
+  text-shadow: 0px 1px black;
+  font-size: 20px;
+  font-weight: bold;
+}

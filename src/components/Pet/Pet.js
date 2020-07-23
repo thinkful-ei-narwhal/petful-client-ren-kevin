@@ -3,12 +3,15 @@ import PetfulApiService from '../../services/petful-api';
 import Button from 'react-bootstrap/Button';
 export default class Pet extends Component {
   state = {
-    pet: {}
-  }
+    pet: {},
+  };
 
   dequeueAndGetNext = () => {
-    this.props.dequeue().then(this.props.getNextPet).then(this.props.handleShow)
-  }
+    this.props
+      .dequeue()
+      .then(this.props.getNextPet)
+      .then(this.props.handleShow);
+  };
 
   renderAdoptButton = () => {
     return (
@@ -16,10 +19,9 @@ export default class Pet extends Component {
         <button onClick={() => this.dequeueAndGetNext()}>Adopt Me!</button>
       )
     );
-  }
+  };
 
   render() {
-
     const {
       age,
       breed,
@@ -30,7 +32,7 @@ export default class Pet extends Component {
       story,
     } = this.props.pet;
     return (
-      <div>
+      <div className="pet-container">
         <h1>{this.props.title}</h1>
         <h2>{name}</h2>
         <img src={imageURL} alt="pet"></img>
