@@ -31,7 +31,7 @@ export default class Pet extends Component {
   }
 
   render() {
-    console.log(this.state.update);
+
     const {
       age,
       breed,
