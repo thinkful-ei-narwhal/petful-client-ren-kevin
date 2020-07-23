@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import PetfulApiService from '../../services/petful-api';
-
+import Button from 'react-bootstrap/Button';
 export default class Pet extends Component {
   state = {
     pet: {},
   };
 
   dequeueAndGetNext = () => {
-    this.props.dequeue().then(this.props.getNextPet);
+    this.props
+      .dequeue()
+      .then(this.props.getNextPet)
+      .then(this.props.handleShow);
   };
 
   renderAdoptButton = () => {

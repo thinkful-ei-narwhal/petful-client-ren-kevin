@@ -32,6 +32,7 @@ export default class PetList extends Component {
           adopt={this.props.adopt}
           pet={this.props.cat}
           getNextPet={this.props.getNextCat}
+          handleShow={this.props.handleShow}
         />
         <Pet
           title="Dog"
@@ -41,6 +42,7 @@ export default class PetList extends Component {
           adopt={this.props.adopt}
           pet={this.props.dog}
           getNextPet={this.props.getNextDog}
+          handleShow={this.props.handleShow}
         />
       </div>
     );

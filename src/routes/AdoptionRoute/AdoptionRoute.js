@@ -129,7 +129,6 @@ export default class Adoption extends Component {
           cat={this.state.cat}
           dog={this.state.dog}
         />
-        ;
         <People
           line={this.state.line}
           inLine={this.state.inLine}
