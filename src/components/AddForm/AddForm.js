@@ -13,7 +13,6 @@ export default class AddForm extends Component {
     this.props.setCat();
   };
   render() {
-    console.log(this.props);
     return (
       <div>
         <form onSubmit={(e) => this.handleSubmit(e)}>

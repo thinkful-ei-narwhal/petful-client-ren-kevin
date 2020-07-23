@@ -29,17 +29,19 @@ export default class Adoption extends Component {
     );
   }
   componentDidUpdate() {
-    if (
-      this.state.nextInLine !== this.state.person &&
-      this.state.inLine === true
-    ) {
-      this.timer = setTimeout(this.handleDemo(), 10000);
+    if (this.state.line[0] !== this.state.person) {
+      if (this.timer === null && this.state.inLine === true) {
+        this.timer = setInterval(() => {
+          this.handlePetQueue();
+          this.handleLineGeneration(this.state.line[0]);
+        }, 6000);
+        console.log('triggered1', this.state, this.timer);
+      }
     }
-    if (this.state.nextInLine === this.state.person) {
-      clearTimeout(this.timer);
+    if (this.state.line[0] === this.state.person) {
+      console.log('triggered2');
+      clearInterval(this.timer);
       this.timer = null;
-      this.setState({ inLine: false });
-      this.setAdopt();
     }
   }
   setAdopt = () => {
@@ -54,30 +56,30 @@ export default class Adoption extends Component {
   setCat = () => {
     this.setState({ dequeueCat: !this.state.dequeueCat });
   };
+  setDog = () => {
+    this.setState({ dequeueDog: !this.state.dequeueDog });
+  };
   setPerson = (name) => {
     this.setState({ person: name });
   };
-  handleDemo = () => {
+  handlePetQueue = () => {
     if (this.state.dequeueCat === true) {
-      this.handleCatQueue();
-      this.handleLineGeneration(this.state.nextInLine);
+      PetfulApiService.dequeueCats().then(
+        PetfulApiService.getCats().then((res) => {
+          this.setState({ cat: res });
+          this.setCat();
+          this.setDog();
+        })
+      );
+    } else if (this.state.dequeueDog === true) {
+      PetfulApiService.dequeueDogs().then(
+        PetfulApiService.getDogs().then((res) => {
+          this.setState({ dog: res });
+          this.setCat();
+          this.setDog();
+        })
+      );
     }
-    if (this.state.dequeueDog === true) {
-      this.handleDogQueue();
-      this.handleLineGeneration(this.state.nextInLine);
-    }
-  };
-  handleCatQueue = () => {
-    PetfulApiService.dequeueCats().then(
-      PetfulApiService.getCats().then((res) => this.setState({ cat: res }))
-    );
-    this.setState({ dequeueCat: false, dequeueDog: true });
-  };
-  handleDogQueue = () => {
-    PetfulApiService.dequeueDogs().then(
-      PetfulApiService.getDogs().then((res) => this.setState({ dog: res }))
-    );
-    this.setState({ dequeueCat: true, dequeueDog: false });
   };
   handleLineGeneration = (name) => {
     PetfulApiService.postPeople({ person: name }).then(
