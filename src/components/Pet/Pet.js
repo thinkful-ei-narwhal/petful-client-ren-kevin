@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PetfulApiServcie from '../../services/petful-api';
+import PetfulApiService from '../../services/petful-api';
 
 export default class Pet extends Component {
   state = {
@@ -9,8 +11,17 @@ export default class Pet extends Component {
     this.props
       .dequeue()
       .then(this.props.getNextPet)
-      .then(this.props.handleShow)
-      .then(this.props.toggleAdopt);
+      .then(() => {
+        PetfulApiService.getPeople()
+          .then((res) => {
+            this.props.setLine(res)
+          })
+      })
+      .then(() => {
+        this.props.handleShow();
+        this.props.toggleAdopt();
+        this.props.setInLine();
+      })
   };
 
   renderAdoptButton = () => {

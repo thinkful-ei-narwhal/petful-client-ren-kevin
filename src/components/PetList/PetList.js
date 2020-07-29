@@ -33,16 +33,20 @@ export default class PetList extends Component {
           pet={this.props.cat}
           getNextPet={this.props.getNextCat}
           handleShow={this.props.handleShow}
+          setInLine={this.props.setInLine}
+          setLine={this.props.setLine}
         />
         <Pet
           title="Dog"
           key="Dog"
-          setAdopt={this.props.setAdopt}
+          toggleAdopt={this.props.toggleAdopt}
           dequeue={PetfulApiService.dequeueDogs}
           adopt={this.props.adopt}
           pet={this.props.dog}
           getNextPet={this.props.getNextDog}
           handleShow={this.props.handleShow}
+          setInLine={this.props.setInLine}
+          setLine={this.props.setLine}
         />
       </div>
     );
