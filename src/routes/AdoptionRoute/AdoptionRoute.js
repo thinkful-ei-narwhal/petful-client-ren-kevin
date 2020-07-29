@@ -77,6 +77,9 @@ export default class Adoption extends Component {
   setInLine = () => {
     this.setState({ inLine: !this.state.inLine });
   };
+  getAndSetLine =(res) => {
+    this.setState({ line: res })
+  }
   toggleCat = () => {
     this.setState({ dequeueCat: !this.state.dequeueCat });
   };
@@ -146,7 +149,9 @@ export default class Adoption extends Component {
           adopt={this.state.adopt}
           cat={this.state.cat}
           dog={this.state.dog}
+          setInLine={this.setInLine}
           handleShow={this.handleShow}
+          setLine={this.getAndSetLine}
         />
         <People
           line={this.state.line}
