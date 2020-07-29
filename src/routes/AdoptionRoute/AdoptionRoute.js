@@ -170,25 +170,27 @@ export default class Adoption extends Component {
           toggleCat={this.toggleCat}
           setLine={this.setLine}
         />
-        <Modal
-          className="popup"
-          show={this.state.show}
-          onHide={this.handleClose}
-        >
-          <Modal.Header>
-            <Modal.Title>Congrats!</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>You just adopted a friend!</Modal.Body>
-          <Modal.Footer>
-            <Button
-              className="btn"
-              variant="primary"
-              onClick={this.handleClose}
-            >
-              Yay!
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <div className="popup-container">
+          <Modal
+            className="popup"
+            show={this.state.show}
+            onHide={this.handleClose}
+          >
+            <Modal.Header>
+              <Modal.Title>Congrats!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>You just adopted a friend!</Modal.Body>
+            <Modal.Footer>
+              <Button
+                className="btn"
+                variant="primary"
+                onClick={this.handleClose}
+              >
+                Yay!
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
       </div>
     );
   }
