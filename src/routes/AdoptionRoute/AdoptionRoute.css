@@ -48,8 +48,7 @@
   border: 2px solid white;
   box-shadow: 3px 3px 3px grey;
 }
-.pet-details {
-  text-align: center;
+.pet-details-container {
   background-color: rgba(128, 128, 128, 0.68);
   padding: 10px;
   border: 2px solid white;
@@ -58,4 +57,7 @@
   font-size: 20px;
   text-shadow: 0px 1px 1px grey;
   margin: 10px;
+}
+.pet-details {
+  text-align: left;
 }

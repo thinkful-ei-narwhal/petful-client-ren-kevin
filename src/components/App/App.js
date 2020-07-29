@@ -11,10 +11,12 @@ export default class App extends Component {
         <header>
           <Route path="/" component={Header} />
         </header>
-        <Switch>
-          <Route exact path="/" component={Homepage} />
-          <Route path={'/adoption'} component={AdoptionRoute} />
-        </Switch>
+        <main>
+          <Switch>
+            <Route exact path="/" component={Homepage} />
+            <Route path={'/adoption'} component={AdoptionRoute} />
+          </Switch>
+        </main>
       </div>
     );
   }
