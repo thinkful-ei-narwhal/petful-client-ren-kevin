@@ -5,7 +5,7 @@
   right: 0;
   display: flex;
   justify-content: space-around;
-  background-color: rgb(12, 104, 104);
+  background-color: rgb(51, 132, 132);
 }
 .Header a {
   color: black;
