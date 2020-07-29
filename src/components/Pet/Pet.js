@@ -16,7 +16,9 @@ export default class Pet extends Component {
   renderAdoptButton = () => {
     return (
       this.props.adopt && (
-        <button onClick={() => this.dequeueAndGetNext()}>Adopt Me!</button>
+        <button className="btn" onClick={() => this.dequeueAndGetNext()}>
+          Adopt Me!
+        </button>
       )
     );
   };
@@ -36,10 +38,14 @@ export default class Pet extends Component {
         <h1>{this.props.title}</h1>
         <h2>{name}</h2>
         <img src={imageURL} alt="pet"></img>
-        <p>
-          Breed: {breed} Gender:{gender} age:{age} Story:{story} Description:
-          {description}
-        </p>
+        <ul>
+          <li>Breed: {breed} </li> <li>Gender:{gender}</li> <li>age:{age}</li>
+          <li>Story:{story}</li>
+          <li>
+            Description:
+            {description}
+          </li>
+        </ul>
         {this.renderAdoptButton()}
       </div>
     );

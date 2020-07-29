@@ -14,10 +14,12 @@ export default class AddForm extends Component {
   };
   render() {
     return (
-      <div>
+      <div className="add-form">
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <input className="name-input" name="name"></input>
-          <button type="submit">Add to Line</button>
+          <button className="btn" type="submit">
+            Add to Line
+          </button>
         </form>
       </div>
     );
