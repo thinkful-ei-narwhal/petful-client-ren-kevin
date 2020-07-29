@@ -20,6 +20,7 @@ export default class Adoption extends Component {
       dequeueCat: false,
       dequeueDog: false,
       show: false,
+      error: null,
     };
     this.timer = null;
   }
@@ -27,10 +28,12 @@ export default class Adoption extends Component {
   componentDidMount() {
     this.getNextCat();
     this.getNextDog();
-    PetfulApiService.getPeople().then((res) => this.setState({ line: res }));
-    PetfulApiService.getNextPerson().then((res) =>
-      this.setState({ nextInLine: res })
-    );
+    PetfulApiService.getPeople().then((res) => {
+      this.setState({ line: res });
+    });
+    PetfulApiService.getNextPerson()
+      .then((res) => this.setState({ nextInLine: res }))
+      .catch((res) => this.setState({ error: res }));
   }
   componentDidUpdate(prevState) {
     if (this.state.line[0] !== this.state.person) {
@@ -42,7 +45,6 @@ export default class Adoption extends Component {
       }
     }
     if (this.state.line[0] === this.state.person && this.timer !== null) {
-      console.log('triggered', this.state);
       clearInterval(this.timer);
       this.timer = null;
       if (prevState.adopt !== true) {
@@ -51,12 +53,16 @@ export default class Adoption extends Component {
     }
   }
   getNextCat = () => {
-    PetfulApiService.getCats().then((res) => {
-      this.setState({ cat: res });
-    });
+    PetfulApiService.getCats()
+      .then((res) => {
+        this.setState({ cat: res });
+      })
+      .catch((res) => this.setState({ error: res }));
   };
   getNextDog = () => {
-    PetfulApiService.getDogs().then((res) => this.setState({ dog: res }));
+    PetfulApiService.getDogs()
+      .then((res) => this.setState({ dog: res }))
+      .catch((res) => this.setState({ error: res }));
   };
   setAdopt = () => {
     this.state.nextInLine === this.state.person &&
@@ -71,10 +77,10 @@ export default class Adoption extends Component {
   setInLine = () => {
     this.setState({ inLine: !this.state.inLine });
   };
-  setCat = () => {
+  toggleCat = () => {
     this.setState({ dequeueCat: !this.state.dequeueCat });
   };
-  setDog = () => {
+  toggleDog = () => {
     this.setState({ dequeueDog: !this.state.dequeueDog });
   };
   setPerson = (name) => {
@@ -82,35 +88,35 @@ export default class Adoption extends Component {
   };
   handlePetQueue = () => {
     if (this.state.dequeueCat === true) {
-      PetfulApiService.dequeueCats().then(
+      PetfulApiService.dequeueCats().then(() => {
         PetfulApiService.getCats().then((res) => {
           this.setState({ cat: res });
           PetfulApiService.getNextPerson().then((res) =>
             this.setState({ nextInLine: res })
           );
-          this.setCat();
-          this.setDog();
-        })
-      );
-      console.log('cat');
+          this.toggleCat();
+          this.toggleDog();
+          console.log('cat', this.state.cat);
+        });
+      });
     } else if (this.state.dequeueDog === true) {
-      PetfulApiService.dequeueDogs().then(
+      PetfulApiService.dequeueDogs().then(() => {
         PetfulApiService.getDogs().then((res) => {
           this.setState({ dog: res });
           PetfulApiService.getNextPerson().then((res) =>
             this.setState({ nextInLine: res })
           );
-          this.setCat();
-          this.setDog();
-        })
-      );
-      console.log('cat');
+          this.toggleCat();
+          this.toggleDog();
+          console.log('dog', this.state.dog);
+        });
+      });
     }
   };
   handleLineGeneration = (name) => {
-    PetfulApiService.postPeople({ person: name }).then(
-      PetfulApiService.getPeople().then((res) => this.setState({ line: res }))
-    );
+    PetfulApiService.postPeople({ person: name }).then(() => {
+      PetfulApiService.getPeople().then((res) => this.setState({ line: res }));
+    });
   };
   handleShow = () => {
     this.setState({ show: true });
@@ -147,7 +153,7 @@ export default class Adoption extends Component {
           inLine={this.state.inLine}
           setInLine={this.setInLine}
           setPerson={this.setPerson}
-          setCat={this.setCat}
+          toggleCat={this.toggleCat}
           setLine={this.setLine}
         />
         <Modal show={this.state.show} onHide={this.handleClose}>

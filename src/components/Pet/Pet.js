@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import PetfulApiService from '../../services/petful-api';
-import Button from 'react-bootstrap/Button';
+
 export default class Pet extends Component {
   state = {
     pet: {},
@@ -37,17 +36,18 @@ export default class Pet extends Component {
     return (
       <div className="pet-container">
         <h1>{this.props.title}</h1>
-        <h2>{name}</h2>
-        <img src={imageURL} alt="pet"></img>
-        <ul>
-          <li>Breed: {breed} </li> <li>Gender:{gender}</li> <li>age:{age}</li>
-          <li>Story:{story}</li>
-          <li>
-            Description:
-            {description}
-          </li>
-        </ul>
-        {this.renderAdoptButton()}
+
+        <img className="pet-img" src={imageURL} alt="pet"></img>
+        <div className="pet-details">
+          <h2>{name}</h2>
+          <ul>
+            <li>Breed: {breed} </li> <li>Gender: {gender}</li>{' '}
+            <li>Age: {age}</li>
+            <li>Story: {story}</li>
+            <li>Description: {description}</li>
+          </ul>
+          {this.renderAdoptButton()}
+        </div>
       </div>
     );
   }
