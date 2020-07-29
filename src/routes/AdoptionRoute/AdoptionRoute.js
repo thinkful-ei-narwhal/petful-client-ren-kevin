@@ -53,14 +53,14 @@ export default class Adoption extends Component {
     }
   }
   getNextCat = () => {
-    PetfulApiService.getCats()
+    return PetfulApiService.getCats()
       .then((res) => {
         this.setState({ cat: res });
       })
       .catch((res) => this.setState({ error: res }));
   };
   getNextDog = () => {
-    PetfulApiService.getDogs()
+    return PetfulApiService.getDogs()
       .then((res) => this.setState({ dog: res }))
       .catch((res) => this.setState({ error: res }));
   };
