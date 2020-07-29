@@ -53,16 +53,14 @@ export default class Adoption extends Component {
     }
   }
   getNextCat = () => {
-    return PetfulApiService.getCats()
-      .then((res) => {
-        this.setState({ cat: res });
-      })
-      .catch((res) => this.setState({ error: res }));
+    return PetfulApiService.getCats().then((res) => {
+      this.setState({ cat: res });
+    });
   };
   getNextDog = () => {
-    return PetfulApiService.getDogs()
-      .then((res) => this.setState({ dog: res }))
-      .catch((res) => this.setState({ error: res }));
+    return PetfulApiService.getDogs().then((res) =>
+      this.setState({ dog: res })
+    );
   };
   setAdopt = () => {
     this.state.nextInLine === this.state.person &&
@@ -77,9 +75,9 @@ export default class Adoption extends Component {
   setInLine = () => {
     this.setState({ inLine: !this.state.inLine });
   };
-  getAndSetLine =(res) => {
-    this.setState({ line: res })
-  }
+  getAndSetLine = (res) => {
+    this.setState({ line: res });
+  };
   toggleCat = () => {
     this.setState({ dequeueCat: !this.state.dequeueCat });
   };
@@ -92,27 +90,37 @@ export default class Adoption extends Component {
   handlePetQueue = () => {
     if (this.state.dequeueCat === true) {
       PetfulApiService.dequeueCats().then(() => {
-        PetfulApiService.getCats().then((res) => {
-          this.setState({ cat: res });
-          PetfulApiService.getNextPerson().then((res) =>
-            this.setState({ nextInLine: res })
-          );
-          this.toggleCat();
-          this.toggleDog();
-          console.log('cat', this.state.cat);
-        });
+        PetfulApiService.getCats()
+          .then((res) => {
+            this.setState({ cat: res });
+            PetfulApiService.getNextPerson().then((res) =>
+              this.setState({ nextInLine: res })
+            );
+            this.toggleCat();
+            this.toggleDog();
+          })
+          .catch((res) => {
+            this.setState({ cat: res });
+            this.toggleCat();
+            this.toggleDog();
+          });
       });
     } else if (this.state.dequeueDog === true) {
       PetfulApiService.dequeueDogs().then(() => {
-        PetfulApiService.getDogs().then((res) => {
-          this.setState({ dog: res });
-          PetfulApiService.getNextPerson().then((res) =>
-            this.setState({ nextInLine: res })
-          );
-          this.toggleCat();
-          this.toggleDog();
-          console.log('dog', this.state.dog);
-        });
+        PetfulApiService.getDogs()
+          .then((res) => {
+            this.setState({ dog: res });
+            PetfulApiService.getNextPerson().then((res) =>
+              this.setState({ nextInLine: res })
+            );
+            this.toggleCat();
+            this.toggleDog();
+          })
+          .catch((res) => {
+            this.setState({ dog: res });
+            this.toggleCat();
+            this.toggleDog();
+          });
       });
     }
   };
@@ -126,13 +134,13 @@ export default class Adoption extends Component {
   };
 
   handleClose = () => {
-    this.setState({ show: false });
+    this.setState({ show: false, dequeueCat: false, dequeueDog: false });
   };
   renderAdopt = () => {
     return (
       <div>
         {this.state.adopt === true && (
-          <div>You're up! Time to choose your new best friend!</div>
+          <h2>You're up! Time to choose your new best friend!</h2>
         )}
       </div>
     );
@@ -153,6 +161,7 @@ export default class Adoption extends Component {
           handleShow={this.handleShow}
           setLine={this.getAndSetLine}
         />
+        {this.renderAdopt()}
         <People
           line={this.state.line}
           inLine={this.state.inLine}
@@ -161,13 +170,21 @@ export default class Adoption extends Component {
           toggleCat={this.toggleCat}
           setLine={this.setLine}
         />
-        <Modal show={this.state.show} onHide={this.handleClose}>
+        <Modal
+          className="popup"
+          show={this.state.show}
+          onHide={this.handleClose}
+        >
           <Modal.Header>
             <Modal.Title>Congrats!</Modal.Title>
           </Modal.Header>
           <Modal.Body>You just adopted a friend!</Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" onClick={this.handleClose}>
+            <Button
+              className="btn"
+              variant="primary"
+              onClick={this.handleClose}
+            >
               Yay!
             </Button>
           </Modal.Footer>
